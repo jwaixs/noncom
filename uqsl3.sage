@@ -28,9 +28,9 @@ def part1(fterm):
     mainF = msplit[-1]
 
     if str(mainF) == str(F1):
-        return Kl*prod(msplit[0:-1])*B1d + d1*part2(prod(msplit[0:-1]), E2*K1inv)
+        return d1*part2(prod(msplit[0:-1]), E2*K1inv) + Kl*prod(msplit[0:-1])*B1d 
     else:
-        return Kl*prod(msplit[0:-1])*B2d + d2*part2(prod(msplit[0:-1]), E1*K2inv)
+        return d2*part2(prod(msplit[0:-1]), E1*K2inv) + Kl*prod(msplit[0:-1])*B2d 
 
 def part2(fterm, eterm):
     '''l1 = (lambda, alpha_1), l2 = (lambda, alpha_2).'''
@@ -53,5 +53,8 @@ def part2(fterm, eterm):
     if str(mainE) == str(E2) and str(mainF) == str(F1):
         return q**(-2)*part2(prod(fsplit[0:-1]), E2*K1inv)*F1
     if str(mainE) == str(E2) and str(mainF) == str(F2):
-        return q*part2(prod(fsplit[0:-1]), E2*K1inv)*F2 - (K2 - K2inv)*(1/(q-q**(-1)))*K1inv
+        return q*part2(prod(fsplit[0:-1]), E2*K1inv)*F2 \
+            - (K2 - K2inv)*(1/(q-q**(-1)))*K1inv
                 
+klf1 = 1/(1 - (d1*q^(l1 + l2)/c1)) * (Kl*B1d + (-d1*q^l2/c1)*B1c*Kl)
+klf2 = 1/(1 - (d2*q^(l1 + l2)/c2)) * (Kl*B2d + (-d2*q^l1/c2)*B2c*Kl)
