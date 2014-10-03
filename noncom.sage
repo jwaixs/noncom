@@ -29,6 +29,9 @@ class NonComMonomial():
     def __init__(self, coef, noncomvars):
         self.coef = coef
         self.noncomvars = noncomvars
+
+    def __len__(self):
+        return len(self.noncomvars)
     
     def __getitem__(self, key):
         return self.noncomvars[key]
@@ -67,7 +70,7 @@ class NonComMonomial():
     
     def multRight(self, nmmonomial):
         newcoef = self.coef * nmmonomial.getCoef()
-        newcomvars = self.noncomvars + nmmonomial.getNonComVars()
+        newcomvars = self.getNonComVars() + nmmonomial.getNonComVars()
 
         return NonComMonomial(newcoef, newcomvars)
 
@@ -210,7 +213,7 @@ class NonComPolynomial():
                 if oldpol[m1].getNonComVars() == oldpol[m2].getNonComVars():
                     ncoef += oldpol[m2].getCoef()
             try:
-                ncoef = ncoef.coef.full_simplify()
+                ncoef = ncoef.full_simplify()
             except:
                 pass
             usedmonomials.append(newmon.getNonComVars())
@@ -218,6 +221,18 @@ class NonComPolynomial():
                 newpol.append(NonComMonomial(ncoef, newmon.getNonComVars()))
 
         return NonComPolynomial(newpol)
+
+    def split(self):
+        ret1 = []
+
+        for monomial in self.getPolynomial():
+            ret2 = []
+            for ncvar in monomial.getNonComVars():
+                ret2.append(NonComPolynomial([NonComMonomial(1, [ncvar])]))
+            ret1.append((monomial.getCoef(), ret2))
+
+        return ret1
+
 
 def ncvar(label):
     return NonComPolynomial([NonComMonomial(1, [NonComVar(label)])])
