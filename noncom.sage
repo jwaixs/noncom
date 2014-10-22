@@ -213,7 +213,7 @@ class NonComPolynomial():
                 if oldpol[m1].getNonComVars() == oldpol[m2].getNonComVars():
                     ncoef += oldpol[m2].getCoef()
             try:
-                ncoef = ncoef.full_simplify()
+                ncoef = ncoef.full_simplify().factor()
             except:
                 pass
             usedmonomials.append(newmon.getNonComVars())
